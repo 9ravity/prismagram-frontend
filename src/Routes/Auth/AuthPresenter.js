@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  ${props => props.theme.whiteBox}
+  ${(props) => props.theme.whiteBox}
   border-radius:0px;
   width: 100%;
   max-width: 350px;
@@ -25,7 +25,7 @@ const StateChanger = styled(Box)`
 `;
 
 const Link = styled.span`
-  color: ${props => props.theme.blueColor};
+  color: ${(props) => props.theme.blueColor};
   cursor: pointer;
 `;
 
@@ -55,17 +55,19 @@ export default ({
   lastName,
   email,
   setAction,
-  onLogin
+  onSubmit,
+  secret,
 }) => (
   <Wrapper>
     <Form>
-      {action === "logIn" ? (
-        <form onSubmit={onLogin}>
+      {action === "logIn" && (
+        <form onSubmit={onSubmit}>
           <Input placeholder={"Email"} {...email} type="email" />
           <Button text={"Log in"} />
         </form>
-      ) : (
-        <form onSubmit={onLogin}>
+      )}
+      {action === "signUp" && (
+        <form onSubmit={onSubmit}>
           <Input placeholder={"First name"} {...firstName} />
           <Input placeholder={"Last name"} {...lastName} />
           <Input placeholder={"Email"} {...email} type="email" />
@@ -73,19 +75,28 @@ export default ({
           <Button text={"Sign up"} />
         </form>
       )}
-    </Form>
-    <StateChanger>
-      {action === "logIn" ? (
-        <>
-          Don't have an account?{" "}
-          <Link onClick={() => setAction("signUp")}>Sign up</Link>
-        </>
-      ) : (
-        <>
-          Have an account?{" "}
-          <Link onClick={() => setAction("logIn")}>Log in</Link>
-        </>
+      {action === "confirm" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder="Paste your secret" required {...secret} />
+          <Button text={"Confirm"} />
+        </form>
       )}
-    </StateChanger>
+    </Form>
+
+    {action !== "confirm" && (
+      <StateChanger>
+        {action === "logIn" ? (
+          <>
+            Don't have an account?{" "}
+            <Link onClick={() => setAction("signUp")}>Sign up</Link>
+          </>
+        ) : (
+          <>
+            Have an account?{" "}
+            <Link onClick={() => setAction("logIn")}>Log in</Link>
+          </>
+        )}
+      </StateChanger>
+    )}
   </Wrapper>
 );
