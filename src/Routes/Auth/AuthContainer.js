@@ -19,7 +19,7 @@ export default () => {
   const firstName = useInput("");
   const lastName = useInput("");
   const secret = useInput("");
-  const email = useInput("shegoback@naver.com");
+  const email = useInput("");
   /* ***** */
   /***************************Mutation***************************************/
   const [requestSecretMutation] = useMutation(LOG_IN, {
@@ -42,7 +42,7 @@ export default () => {
     },
   });
 
-  const localLogInMutation = useMutation(LOCAL_LOG_IN);
+  const [localLogInMutation] = useMutation(LOCAL_LOG_IN);
   // variables token을 넣지 않는 이유 token은 오로지 mutation을 호출한 후에 나옴
   // 내가 confirmSecret를 호출한 후에 생김
   /******************************************************************/
@@ -52,15 +52,15 @@ export default () => {
     if (action === "logIn") {
       if (email.value !== "") {
         try {
-          /* const mutation = await requestSecretMutation();
-          console.log(mutation);*/
           const {
-            data: { mutation },
+            data: { requestSecret },
           } = await requestSecretMutation();
-          if (!mutation) {
+          console.log(requestSecret); // token
+          if (!requestSecret) {
             toast.error("You don't have an account yet, create one 💢");
           } else {
             toast.success("Check your email for your login secret key");
+            setAction("confirm");
           }
         } catch (error) {
           console.log(error);
@@ -77,8 +77,11 @@ export default () => {
         lastName.value !== ""
       ) {
         try {
-          const { createAccout } = await createAccountMutation();
-          if (!createAccout) {
+          const {
+            data: { createAccount },
+          } = await createAccountMutation();
+          console.log(createAccount);
+          if (!createAccount) {
             toast.error("Can't create account");
           } else {
             toast.success("Account created! LogIn Now 💨");
@@ -97,20 +100,18 @@ export default () => {
       if (secret.value !== "") {
         try {
           const {
-            data: { confirmSecret },
+            data: { confirmSecret: token },
           } = await confirmSecretMutation();
-          console.log(confirmSecret); // response = token
-          const token = confirmSecret.token;
+          console.log(token); // response = token
           if (token !== "" && token !== undefined) {
-            localLogInMutation({
-              variables: { token },
-            }); //
+            localLogInMutation({ variables: { token } });
+          } else {
+            throw Error();
           }
-
           // TODO: log user in
         } catch (error) {
           console.log(error);
-          toast.error("Can't confirm secret ❌");
+          toast.error("Can't confirm secret, check again ❌");
         }
       }
     }
