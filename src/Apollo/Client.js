@@ -5,6 +5,12 @@ export default new ApolloClient({
   uri: "http://localhost:4000",
   clientState: {
     defaults,
-    resolvers
-  }
-}); // configuration
+    resolvers,
+  },
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+}); // Apollo configuration
+
+// apollographql.com client 참고
+/* apollo boost configuration options header에 token 보내기*/

@@ -6,6 +6,8 @@ const Footer = styled.footer`
   justify-content: space-between;
   align-items: center;
   font-size: 12px;
+  font-weight: 600;
+  margin: 50px 0px;
 `;
 
 const List = styled.ul`
@@ -20,12 +22,12 @@ const ListItem = styled.li`
 
 const Link = styled.a`
   text-transform: uppercase;
-  color: ${props => props.theme.darkBlueColor};
+  color: ${(props) => props.theme.darkBlueColor};
   font-weight: 600;
 `;
 
 const Copyright = styled.span`
-  color: ${props => props.theme.darkGeryColor};
+  color: ${(props) => props.theme.darkGeryColor};
 `;
 
 export default () => (
