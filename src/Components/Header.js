@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
 import { Compass, HeartEmpty, User, Logo } from "./Icons";
-import { gql } from "apollo-boost"; // graphql 사용 목적 query
+//import { gql } from "apollo-boost";  graphql 사용 목적 query
 import { useQuery } from "@apollo/react-hooks";
 import { ME } from "../SharedQueries";
 

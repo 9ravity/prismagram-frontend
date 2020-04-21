@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import PostPresenter from "./PostPresenter";
 import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
+import { useMutation } from "@apollo/react-hooks";
 import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
-import { typeFromAST } from "graphql";
-import { useQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 
 //useEffect -> componentDidMount
@@ -19,7 +18,7 @@ const PostContainer = ({
   caption,
   location,
 }) => {
-  /* like */
+  /* State, */
   const [isLikedState, setIsLiked] = useState(isLiked); // useState() db데이터, default 셋팅
   const [likeCountState, setLikeCount] = useState(likeCount);
   const [currentItem, setCurrentItem] = useState(0);
@@ -35,21 +34,18 @@ const PostContainer = ({
     variables: { postId: id, text: comment.value },
   });
 
-  /*************************************** */
+  /*******************이미지******************** */
+
+  //componentDidMount = useEffect 같음
   // post 이미지 자동 슬라이드,
-  const slide = () => {
-    const totlaFiles = files.length;
-    if (currnetItem === totlaFiles - 1) {
+  useEffect(() => {
+    const totalFiles = files.length;
+    if (currentItem === totalFiles - 1) {
       setTimeout(() => setCurrentItem(0), 3000);
     } else {
       setTimeout(() => setCurrentItem(currentItem + 1), 3000);
     }
-  };
-  //componentDidMount = useEffect 같음
-  useEffect(() => {
-    slide();
-  }, [currentItem]);
-  console.log(currentItem);
+  }, [currentItem, files]);
 
   /**************************************** */
 

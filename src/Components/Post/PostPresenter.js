@@ -116,7 +116,7 @@ export default ({
     <Header>
       <Avatar size="sm" url={avatar}></Avatar>
       <UserColumn>
-        <FatText text={text} />
+        <FatText text={username} />
         <Location>{location}</Location>
       </UserColumn>
     </Header>
