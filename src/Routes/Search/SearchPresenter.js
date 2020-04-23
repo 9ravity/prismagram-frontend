@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import FatText from "../../Components/FatText";
 import UserCard from "../../Components/UserCard";
+import SquarePost from "../../Components/SquarePost";
 
 // 1. searchTerm , 2. loding, 3. data - check 하기
 
@@ -15,9 +16,15 @@ const Section = styled.div`
   margin-bottom: 50px;
   display: grid;
   grid-gap: 25px;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows:160px;
-  grid-auto-rows :160px;
+  grid-template-columns: repeat(4, 160px);
+  grid-template-rows: 160px;
+  grid-auto-rows: 160px;
+`;
+
+const PostSection = styled(Section)`
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 200px;
+  grid-auto-rows: 200px;
 `;
 
 const SearchPresenter = ({ searchTerm, loading, data }) => {
@@ -52,13 +59,20 @@ const SearchPresenter = ({ searchTerm, loading, data }) => {
             ))
           )}
         </Section>
-        <Section>
+        <PostSection>
           {data.searchPost.length === 0 ? (
             <FatText text="No posts  found" />
           ) : (
-            data.searchPost.map((post) => null)
+            data.searchPost.map((post) => (
+              <SquarePost
+                key={post.id}
+                file={post.files[0].url}
+                likeCount={post.likeCount}
+                commentCount={post.commentCount}
+              />
+            ))
           )}
-        </Section>
+        </PostSection>
       </Wrapper>
     );
   }
